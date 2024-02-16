@@ -1,0 +1,15 @@
+{
+  "name": "threejs",
+  "module": "index.ts",
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "type": "module",
+  "dependencies": {
+    "three": "^0.161.0",
+    "three-full": "^28.0.2"
+  }
+}
