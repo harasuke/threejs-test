@@ -1,5 +1,6 @@
 import * as THREE from "../../node_modules/three/build/three.module.min.js"; 
 import { Camera } from "./camera.js";
+import { KeyController } from "./keyController.js";
 
 /**
  * A class for generating an entity and attach it to the Node provided
@@ -10,6 +11,8 @@ export class Entity extends THREE.Object3D {
    * @description Camera object that follows the entity
    */
   #myCamera = null;
+
+  #keyController = null;
 
   #material;
   #mesh;
@@ -39,6 +42,22 @@ export class Entity extends THREE.Object3D {
     this.#mesh = new THREE.Mesh(this.geometry, this.material);
     this.add(this.#mesh);
 
+    if (opts.movable) {
+      this.keyController = new KeyController(this.#mesh.position);
+
+      this.rotation.x = this.keyController.newHeading.x;
+      this.rotation.y = this.keyController.newHeading.y;
+      this.rotation.z = this.keyController.newHeading.z;
+      
+      if (!!opts.attachTo) {
+        this.add(this.keyController.line)
+        this.add(this.keyController.headingLine)
+        // opts.attachTo.add(this.keyController.line)
+        // opts.attachTo.add(this.keyController.headingLine1)
+
+      }
+    }
+
     if (!!opts.attachTo)
         opts.attachTo.add(this);
     if (opts.camera)
@@ -53,6 +72,11 @@ export class Entity extends THREE.Object3D {
     return this.position;
   }
 
+  onKeyPress(e) {
+    if (!!!this.#keyController) return;
+    this.#keyController.onKeyPress(e);
+  }
+
   moveTo(x,y,z) {
     // this.#mesh.position.x = x;
     // this.#mesh.position.y = y;
@@ -60,8 +84,6 @@ export class Entity extends THREE.Object3D {
     this.position.x = x;
     this.position.y = y;
     this.position.z = z;
-
-
 
     if (!!this.#myCamera) {
       this.#myCamera.moveTo(x-10,y-10,z-10);

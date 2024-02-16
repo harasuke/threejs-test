@@ -7,7 +7,7 @@ const world = new World("#game-screen", true);
 window.onresize = world.onResize();
 var objects = [];
 
-const player = new Entity({ coords: { x: -5, y: 0, z: -3 }, attachTo: world.scene, camera: true });
+const player = new Entity({ coords: { x: -5, y: 0, z: -3 }, movable: true, attachTo: world.scene, camera: true });
 player.add(world.createAxes());
 objects.push(player);
 
@@ -25,8 +25,8 @@ world.scene.add(wrap);
 function animate() {
   requestAnimationFrame((tickTime) => {
     tickTime *= 0.001; // convert time to seconds
-    player.rotation.x = tickTime;
-    player.moveTo(tickTime, 0, 0);
+    // player.rotation.x = tickTime;
+    // player.moveTo(tickTime, 0, 0);
 
     // player.camera.updateProjectionMatrix();
     world.camera.updateProjectionMatrix();
@@ -39,13 +39,9 @@ animate();
 
 let x = 0;
 world.canvas.addEventListener("keydown", (e) => {
-  console.log(e.keyCode);
-  if (e.keyCode == Commands.LEFT_ARROW) {
-    objects.forEach((q) => q.moveTo(0, x, 0));
-    x += 1;
-  }
-  if (e.keyCode == Commands.RIGHT_ARROW) {
-    objects.forEach((q) => q.moveTo(0, x, 0));
-    x -= 1;
-  }
+objects.forEach(q => q.onKeyPress(e))
+  // if (e.keyCode == Commands.SPACEBAR) {
+  //   objects.forEach((q) => q.moveTo(q.position.x +=  0.1, 0, 0 ))
+  //   x+=0.1;
+  // }
 });

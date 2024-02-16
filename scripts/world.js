@@ -50,7 +50,7 @@ export class World {
     this.controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
     this.controls.dampingFactor = 0.05;
     this.controls.screenSpacePanning = true;
-    this.controls.minDistance = 20;
+    this.controls.minDistance = 5;
     this.controls.maxDistance = 500;
     this.controls.maxPolarAngle = Math.PI / 2;
   }
