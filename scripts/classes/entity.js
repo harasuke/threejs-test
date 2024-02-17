@@ -14,6 +14,7 @@ export class Entity extends THREE.Object3D {
 
   #keyController = null;
 
+  #geometry;
   #material;
   #mesh;
 
@@ -33,27 +34,28 @@ export class Entity extends THREE.Object3D {
     this.position.y = opts.coords.y;
     this.position.z = opts.coords.z;
 
-    this.geometry = new THREE.BoxGeometry(
+    this.#geometry = new THREE.BoxGeometry(
         opts.size?.width || 1,
         opts.coords.height || 1,
         opts.size?.depth || 1
     );
-    this.#material = new THREE.MeshPhongMaterial({ color: 0x44aa88 }); // greenish blue
-    this.#mesh = new THREE.Mesh(this.geometry, this.material);
+    this.#material = new THREE.MeshPhongMaterial({ color: 0x44aa88}); // greenish blue
+    this.#mesh = new THREE.Mesh(this.#geometry, this.#material);
     this.add(this.#mesh);
 
     if (opts.movable) {
-      this.keyController = new KeyController(this.#mesh.position);
+      this.#keyController = new KeyController(this.#mesh.position);
 
-      this.rotation.x = this.keyController.newHeading.x;
-      this.rotation.y = this.keyController.newHeading.y;
-      this.rotation.z = this.keyController.newHeading.z;
+      // this.rotation.x = this.keyController.newHeading.x;
+      // this.rotation.y = this.keyController.newHeading.y;
+      // this.rotation.z = this.keyController.newHeading.z;
       
       if (!!opts.attachTo) {
-        this.add(this.keyController.line)
-        this.add(this.keyController.headingLine)
-        // opts.attachTo.add(this.keyController.line)
-        // opts.attachTo.add(this.keyController.headingLine1)
+        this.add(this.#keyController.line)
+        this.add(this.#keyController.headingLine)
+        // this.rotation.x = this.#keyController.newHeading.x;
+        // this.rotation.y = this.#keyController.newHeading.y;
+        this.applyQuaternion(this.#keyController.quaternion)
 
       }
     }
@@ -78,9 +80,6 @@ export class Entity extends THREE.Object3D {
   }
 
   moveTo(x,y,z) {
-    // this.#mesh.position.x = x;
-    // this.#mesh.position.y = y;
-    // this.#mesh.position.z = z;
     this.position.x = x;
     this.position.y = y;
     this.position.z = z;

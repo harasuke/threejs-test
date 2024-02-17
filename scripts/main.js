@@ -1,13 +1,12 @@
 import * as THREE from "../node_modules/three/build/three.module.min.js";
 import { World } from "./world.js";
 import { Entity } from "./classes/entity.js";
-import { Commands } from "./classes/commands.js";
 
 const world = new World("#game-screen", true);
 window.onresize = world.onResize();
 var objects = [];
 
-const player = new Entity({ coords: { x: -5, y: 0, z: -3 }, movable: true, attachTo: world.scene, camera: true });
+const player = new Entity({ coords: { x: 0, y: 0, z: -1 }, movable: true, attachTo: world.scene, camera: true });
 player.add(world.createAxes());
 objects.push(player);
 
@@ -25,10 +24,7 @@ world.scene.add(wrap);
 function animate() {
   requestAnimationFrame((tickTime) => {
     tickTime *= 0.001; // convert time to seconds
-    // player.rotation.x = tickTime;
-    // player.moveTo(tickTime, 0, 0);
 
-    // player.camera.updateProjectionMatrix();
     world.camera.updateProjectionMatrix();
     world.render();
     world.controls.update();
@@ -39,9 +35,5 @@ animate();
 
 let x = 0;
 world.canvas.addEventListener("keydown", (e) => {
-objects.forEach(q => q.onKeyPress(e))
-  // if (e.keyCode == Commands.SPACEBAR) {
-  //   objects.forEach((q) => q.moveTo(q.position.x +=  0.1, 0, 0 ))
-  //   x+=0.1;
-  // }
+  objects.forEach(q => q.onKeyPress(e))
 });

@@ -26,7 +26,7 @@ export class World {
 
   #setScene() {
     this.scene = new THREE.Scene();
-    this.scene.add(this.createLight());
+    this.scene.add(this.createLight({coords:{x: -1, y: 5, z: 0}}));
     const light = new THREE.AmbientLight(0x404040);
     this.scene.add(light);
   }
@@ -78,8 +78,9 @@ export class World {
   }
 
   createLight(opts) {
-    let light = new THREE.DirectionalLight(0xffffff);
-    light.position.set(opts?.coords?.x || 100, opts?.coords?.y || 100, opts?.coords?.z || 100);
+    let intensity = 3;
+    let light = new THREE.DirectionalLight(0xFFFFFF, intensity);
+    light.position.set(opts?.coords?.x || 10, opts?.coords?.y || 10, opts?.coords?.z || 10);
     light.target.position.set(0, 0, 0);
     light.castShadow = true;
     light.shadow.bias = -0.1;
