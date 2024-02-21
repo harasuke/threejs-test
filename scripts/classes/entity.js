@@ -1,6 +1,7 @@
-import * as THREE from "../../node_modules/three/build/three.module.min.js"; 
+import * as THREE from "../../node_modules/three/build/three.module.min.js";
+import { OrbitControls } from "./OrbitControls.js";
 import { Camera } from "./camera.js";
-import { KeyController } from "./keyController.js";
+import { MovableEntity } from "./movable-entity.js";
 
 /**
  * A class for generating an entity and attach it to the Node provided
@@ -23,9 +24,10 @@ export class Entity extends THREE.Object3D {
    *  coords: {x:number, y:number, z:number},
    *  size: {width: number, height: number, depth: number}
    *  attachTo: THREE.Scene|THREE.Node,
-   *  camera: boolean
+   *  camera: boolean,
+   *  movementData: {pitchSpeed: number, rollSpeed: number, yawSpeed: number}
    * }} Options
-   * 
+   *
    * @param {Options} opts - {@linkcode Options}
    */
   constructor(opts) {
@@ -35,59 +37,75 @@ export class Entity extends THREE.Object3D {
     this.position.z = opts.coords.z;
 
     this.#geometry = new THREE.BoxGeometry(
-        opts.size?.width || 1,
-        opts.coords.height || 1,
-        opts.size?.depth || 1
+      opts.size?.width || 1,
+      opts.coords.height || 1,
+      opts.size?.depth || 1
     );
-    this.#material = new THREE.MeshPhongMaterial({ color: 0x44aa88}); // greenish blue
+    this.#material = new THREE.MeshPhongMaterial({ color: 0x44aa88 }); // greenish blue
     this.#mesh = new THREE.Mesh(this.#geometry, this.#material);
     this.add(this.#mesh);
 
-    if (opts.movable) {
-      this.#keyController = new KeyController(this.#mesh.position);
+    if (opts.movementData) {
+      this.pitchSpeed = opts?.movementData?.pitchSpeed || 0.01;
+      this.rollSpeed = opts?.movementData?.rollSpeed || 0.01;
+      this.yawSpeed = opts?.movementData?.yawSpeed || 0.01;
+    }
 
-      // this.rotation.x = this.keyController.newHeading.x;
-      // this.rotation.y = this.keyController.newHeading.y;
-      // this.rotation.z = this.keyController.newHeading.z;
-      
+    if (opts.movable) {
+      Object.assign(this, MovableEntity);
+      // this.#keyController = new KeyController(this.#mesh.position);
+
       if (!!opts.attachTo) {
-        this.add(this.#keyController.line)
-        this.add(this.#keyController.headingLine)
+        // this.add(this.#keyController.line)
+        // this.add(this.#keyController.headingLine)
         // this.rotation.x = this.#keyController.newHeading.x;
         // this.rotation.y = this.#keyController.newHeading.y;
-        this.applyQuaternion(this.#keyController.quaternion)
-
+        // this.applyQuaternion(this.#keyController.quaternion)
       }
     }
 
-    if (!!opts.attachTo)
-        opts.attachTo.add(this);
-    if (opts.camera)
-        this.#myCamera = new Camera(75, 2, 0.1, 100, this.#mesh);
-  }
-
-  get camera() {
-    return this.#myCamera;
+    if (!!opts.attachTo) opts.attachTo.add(this);
+    if (opts.camera) {
+      this.camera = new Camera(75, 2, 0.1, 100, this);
+      this.camera.position.set(0,2.4,3);
+      this.add(this.camera)
+      window.cameras.push(this.camera);
+    }
   }
 
   get position() {
     return this.position;
   }
 
-  onKeyPress(e) {
-    if (!!!this.#keyController) return;
-    this.#keyController.onKeyPress(e);
+  get mesh() {
+    return this.#mesh;
   }
 
-  moveTo(x,y,z) {
+  onKeyPress(e) {
+    if (!this.isMovable) return;
+    this.commandAction(this, e.keyCode, e.type);
+  }
+
+  moveTo(x, y, z) {
     this.position.x = x;
     this.position.y = y;
     this.position.z = z;
-
-    if (!!this.#myCamera) {
-      this.#myCamera.moveTo(x-10,y-10,z-10);
-      this.#myCamera.lookAt(this.position);
-    }
+    // this.camera.moveTo(this.position.x, this.position.y + 2, this.position.z + 3)
   }
 
+  update(tickTime) {
+    // this.heading.z -= tickTime;
+    // this.moveTo(this.heading.x, this.heading.y, this.heading.z);
+    this.translateZ(-0.1)
+
+    // console.log(this.heading)
+    // console.log(this.newHeading)
+    // this.moveTo(this.heading)
+    // console.log(this.localToWorld(this.position))
+  }
+
+  get refToGlobalSpace() {
+    console.log("hey", this.position);
+    return this.position;
+  }
 }

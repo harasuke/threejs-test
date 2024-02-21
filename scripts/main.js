@@ -1,12 +1,17 @@
 import * as THREE from "../node_modules/three/build/three.module.min.js";
 import { World } from "./world.js";
 import { Entity } from "./classes/entity.js";
+import { Commands } from "./classes/commands.js";
+
+window.objects = [];
+window.cameras = [];
+window.currentCamera = 0;
 
 const world = new World("#game-screen", true);
 window.onresize = world.onResize();
-var objects = [];
+window.worldContext = world;
 
-const player = new Entity({ coords: { x: 0, y: 0, z: -1 }, movable: true, attachTo: world.scene, camera: true });
+const player = new Entity({ coords: { x: 0, y: 0, z: -2 }, size: {width: 1, height: 1, depth: 2}, movable: true, attachTo: world.scene, camera: true });
 player.add(world.createAxes());
 objects.push(player);
 
@@ -23,17 +28,24 @@ world.scene.add(wrap);
 
 function animate() {
   requestAnimationFrame((tickTime) => {
-    tickTime *= 0.001; // convert time to seconds
+    tickTime *= 0.00001; // convert time to seconds
 
-    world.camera.updateProjectionMatrix();
-    world.render();
+    player.update(tickTime);
+
+    // world.camera.updateProjectionMatrix();
+    world.render(cameras[window.currentCamera]);
     world.controls.update();
     animate();
   });
 }
 animate();
 
-let x = 0;
 world.canvas.addEventListener("keydown", (e) => {
+  if (e.keyCode === Commands[0]) window.currentCamera = 0;
+  if (e.keyCode === Commands[1]) window.currentCamera = 1;
+
+  objects.forEach(q => q.onKeyPress(e))
+});
+world.canvas.addEventListener("keyup", (e) => {
   objects.forEach(q => q.onKeyPress(e))
 });

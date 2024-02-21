@@ -22,6 +22,7 @@ export class World {
     this.camera = new Camera(75, 2, 0.1, 100);
     this.camera.position.set(0, 0, 5);
     this.camera.lookAt(0, 0, 0);
+    window.cameras.push(this.camera);
   }
 
   #setScene() {
@@ -56,7 +57,6 @@ export class World {
   }
 
   onResize() {
-    // const canvas = world.renderer.domElement;
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.canvas.setAttribute('width', window.innerWidth);
     this.canvas.setAttribute('height', 0.5625*window.innerWidth); // mantengo sempre i  16/9.
@@ -65,7 +65,9 @@ export class World {
   // document.getElementById("game-screen").setAttribute('height', 0.5625*window.innerWidth); // mantengo sempre i  16/9.
     this.canvas.style = "";
     this.camera.aspect = this.canvas.clientWidth / this.canvas.clientHeight;
-    this.camera.updateProjectionMatrix();
+    window.cameras.forEach(camera => {
+      camera.updateProjectionMatrix();
+    });
     // world.renderer.setSize(window.innerWidth, 0.5625*window.innerWidth, false);
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight, false);
   }
