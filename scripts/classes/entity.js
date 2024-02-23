@@ -96,7 +96,7 @@ export class Entity extends THREE.Object3D {
   update(tickTime) {
     // this.heading.z -= tickTime;
     // this.moveTo(this.heading.x, this.heading.y, this.heading.z);
-    this.translateZ(-0.1)
+    this.translateZ(-this.speed)
 
     // console.log(this.heading)
     // console.log(this.newHeading)

@@ -19,7 +19,8 @@ export const MovableEntity = {
   yawLeft: false,
   yawRight: true,
 
-  speed: 0.01,
+  speed: 0,
+  maxSpeed: 1.5,
   heading: new THREE.Vector3(0,0,-1),
 
   commandAction: (context, keyCode, type) => {
@@ -41,6 +42,12 @@ export const MovableEntity = {
         break;
       case Commands.L:
         MovementController.yawRight(context, type);
+        break;
+      case Commands.SHIFT:
+        MovementController.increaseSpeed(context, type);
+        break;
+      case Commands.LEFT_CTRL:
+        MovementController.decreaseSpeed(context, type);
         break;
     }
   },

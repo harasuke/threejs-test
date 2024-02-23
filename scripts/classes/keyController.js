@@ -81,6 +81,14 @@ export class MovementController {
     if (type == "keyup") return;
     else this.rotateY(context, 0);
   }
+  static increaseSpeed(context) {
+    if (context.speed + 0.02 > context.maxSpeed) return context.speed = context.maxSpeed;
+    context.speed += 0.02;
+  }
+  static decreaseSpeed(context) {
+    if (context.speed - 0.02 <= 0) return context.speed = 0;
+    context.speed -= 0.02;
+  }
 
   static quaternionX_p = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1,0,0).normalize(), 0.1);
   static quaternionX_m = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(-1,0,0).normalize(), 0.1);
