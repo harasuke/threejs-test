@@ -19,7 +19,7 @@ export const MovableEntity = {
   yawLeft: false,
   yawRight: true,
 
-  accelleration: 0.01,
+  acceleration: 0.001,
   speed: 0,
   maxSpeed: 1.5,
   heading: new THREE.Vector3(0,0,-1),

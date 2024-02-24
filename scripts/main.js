@@ -14,6 +14,7 @@ window.worldContext = world;
 const player = new Entity({ coords: { x: 0, y: 0, z: -2 }, size: {width: 1, height: 1, depth: 2}, movable: true, attachTo: world.scene, camera: true });
 player.add(world.createAxes());
 objects.push(player);
+window.player = player;
 
 const box = new Entity({ coords: { x: 5, y: 5, z: -15 }, attachTo: world.scene });
 const box1 = new Entity({ coords: { x: 10, y: 0, z: -7 }, attachTo: world.scene });
@@ -32,7 +33,11 @@ function animate() {
 
     player.update(tickTime);
 
-    handleKeypress();
+    handleKeypress(); // Keyboard input
+
+    /** Probably slows down app, must check */
+    gamepadEvent(); // Gamepad Input
+    
 
     // world.camera.updateProjectionMatrix();
     world.render(cameras[window.currentCamera]);
@@ -42,12 +47,6 @@ function animate() {
 }
 animate();
 
-window.currentlyPressedKeys = new Map();
-function handleKeypress() {
-  for (let key of  window.currentlyPressedKeys.keys()) {
-    player.onKeyPress(key)
-  }
-}
 
 world.canvas.addEventListener("keydown", (e) => {
   window.currentlyPressedKeys.set(e.keyCode, 0);
