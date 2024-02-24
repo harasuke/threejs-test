@@ -32,6 +32,8 @@ function animate() {
 
     player.update(tickTime);
 
+    handleKeypress();
+
     // world.camera.updateProjectionMatrix();
     world.render(cameras[window.currentCamera]);
     world.controls.update();
@@ -40,12 +42,17 @@ function animate() {
 }
 animate();
 
-world.canvas.addEventListener("keydown", (e) => {
-  if (e.keyCode === Commands[0]) window.currentCamera = 0;
-  if (e.keyCode === Commands[1]) window.currentCamera = 1;
+window.currentlyPressedKeys = new Map();
+function handleKeypress() {
+  for (let key of  window.currentlyPressedKeys.keys()) {
+    player.onKeyPress(key)
+  }
+}
 
-  objects.forEach(q => q.onKeyPress(e))
+world.canvas.addEventListener("keydown", (e) => {
+  window.currentlyPressedKeys.set(e.keyCode, 0);
 });
 world.canvas.addEventListener("keyup", (e) => {
-  objects.forEach(q => q.onKeyPress(e))
+  objects.forEach(q => q.onKeyPress(window.currentlyPressedKeys, false))
+  window.currentlyPressedKeys.delete(e.keyCode)
 });

@@ -23,6 +23,12 @@ export const MovableEntity = {
   maxSpeed: 1.5,
   heading: new THREE.Vector3(0,0,-1),
 
+  /**
+   * Handle user keypress and make things happends on the object.
+   * @param {Object3D} context Context of the item which I'm interacting with
+   * @param {KeyboardEvent.keyCode} keyCode Code of the pressed key
+   * @param {boolean} type true when keydown fires; false when keyup fires
+   */
   commandAction: (context, keyCode, type) => {
     switch (keyCode) {
       case Commands.W:

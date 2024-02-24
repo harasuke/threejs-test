@@ -81,9 +81,14 @@ export class Entity extends THREE.Object3D {
     return this.#mesh;
   }
 
-  onKeyPress(e) {
+  /**
+   * Handle the key pressed only if it's movable
+   * @param {KeyboardEvent.keyCode} keyCode Code of the pressed key
+   * @param {boolean} type true when keydown fires; false when keyup fires
+   */
+  onKeyPress(keyCode, type=true) {
     if (!this.isMovable) return;
-    this.commandAction(this, e.keyCode, e.type);
+    this.commandAction(this, keyCode, type);
   }
 
   moveTo(x, y, z) {
