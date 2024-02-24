@@ -51,6 +51,9 @@ function handleKeypress() {
 
 world.canvas.addEventListener("keydown", (e) => {
   window.currentlyPressedKeys.set(e.keyCode, 0);
+
+  if (e.keyCode == Commands[1]) window.currentCamera = 1;
+  if (e.keyCode == Commands[0]) window.currentCamera = 0;
 });
 world.canvas.addEventListener("keyup", (e) => {
   objects.forEach(q => q.onKeyPress(window.currentlyPressedKeys, false))

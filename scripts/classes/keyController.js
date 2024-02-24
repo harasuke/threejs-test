@@ -7,41 +7,41 @@ export class MovementController {
     context.pitchUp = type == 'keydown' ? true : false;
     context.pitchDown = false;
     if (type == "keyup") return;
-    else this.rotateX(context, 1);
+    else this.rotateX(context, 1, 0.008);
   }
   static pitchDown(context, type) {
     context.pitchUp = false;
     context.pitchDown = type == 'keydown' ? true : false;
     if (type == "keyup") return;
-    else this.rotateX(context, 0);
+    else this.rotateX(context, 0, 0.008);
   }
   static rollLeft(context, type) {
     context.rollLeft = type == 'keydown' ? true : false;
     context.rollRight = false;
     if (type == "keyup") return;
-    else this.rotateZ(context, 1);
+    else this.rotateZ(context, 1, 0.07);
   }
   static rollRight(context, type){
     context.rollLeft = false;
     context.rollRight = type == 'keydown' ? true : false;
     if (type == "keyup") return;
-    else this.rotateZ(context, 0);
+    else this.rotateZ(context, 0, 0.07);
   }
   static yawLeft(context, type) {
     context.yawLeft = type == 'keydown' ? true : false;
     context.yawRight = false;
     if (type == "keyup") return;
-    else this.rotateY(context, 1);
+    else this.rotateY(context, 1, 0.005);
   }
   static yawRight(context, type){
     context.yawLeft = false;
     context.yawRight = type == 'keydown' ? true : false;
     if (type == "keyup") return;
-    else this.rotateY(context, 0);
+    else this.rotateY(context, 0, 0.005);
   }
   static increaseSpeed(context) {
-    if (context.speed + 0.02 > context.maxSpeed) return context.speed = context.maxSpeed;
-    context.speed += 0.02;
+    if (context.speed + context.accelleration > context.maxSpeed) return context.speed = context.maxSpeed;
+    context.speed += context.accelleration;
   }
   static decreaseSpeed(context) {
     if (context.speed - 0.02 <= 0) return context.speed = 0;
