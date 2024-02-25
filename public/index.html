@@ -24,10 +24,17 @@
             outline: 1px solid red;
             display: block;
         }
+        #object-data {
+            z-index: 100;
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: white;
+        }
     </style>
-    <script type="module" src="scripts/input/gamepad.js"></script>
-    <script src="scripts/input/keyboard.js"></script>
-    <title>Document</title>
+    <div id="object-data"></div>
+    <script type="module" src="scripts/controller/gamepad.js"></script>
+    <title>JSCombat - Jet Strike Combat</title>
 </head>
 <body>
     <canvas id="game-screen" tabindex="0"></canvas>

@@ -1,7 +1,7 @@
-import * as THREE from "../node_modules/three/build/three.module.min.js";
+import * as THREE from "../../node_modules/three/build/three.module.min.js";
 import { World } from "./world.js";
 import { Entity } from "./classes/entity.js";
-import { Commands } from "./classes/commands.js";
+import { Commands } from "./controller/inputController.js";
 
 window.objects = [];
 window.cameras = [];
@@ -28,6 +28,7 @@ wrap.add(box3);
 world.scene.add(wrap);
 
 function animate() {
+  document.getElementById('object-data').innerHTML = window.player.speed;
   requestAnimationFrame((tickTime) => {
     tickTime *= 0.00001; // convert time to seconds
 

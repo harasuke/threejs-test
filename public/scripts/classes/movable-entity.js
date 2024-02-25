@@ -1,6 +1,5 @@
-import * as THREE from "../../node_modules/three/build/three.module.min.js"; 
-import { MovementController } from "./keyController.js";
-import { Commands } from "./commands.js";
+import * as THREE from "../../../node_modules/three/build/three.module.min.js"; 
+import { MovementController, Commands } from "../controller/inputController.js";
 
 export const MovableEntity = {
   isMovable: true,
@@ -19,8 +18,11 @@ export const MovableEntity = {
   yawLeft: false,
   yawRight: true,
 
+  throttle: 0, // goes between 0-1
   acceleration: 0.001,
+  deceleration: 0.005,
   speed: 0,
+  // maxSpeed: 1.5 * this.throttle,
   maxSpeed: 1.5,
   heading: new THREE.Vector3(0,0,-1),
 

@@ -1,5 +1,8 @@
-import * as THREE from "../node_modules/three/build/three.module.min.js";
-import { OrbitControls } from "./classes/OrbitControls.js";
+import * as THREE from "../../node_modules/three/build/three.module.min.js";
+// import * as LOADER from "../node_modules/three/examples/jsm/loaders/GLTFLoader.js";
+// import { LoadingManager } from "../node_modules/three/src/loaders/LoadingManager.js";
+import { OrbitControls } from "./core/OrbitControls.js";
+// import { OrbitControls } from "../../node_modules/three/examples/jsm/controls/OrbitControls.js";
 import { Camera } from "./classes/camera.js";
 
 export class World {
@@ -12,6 +15,7 @@ export class World {
     this.#setScene();
     this.#setSkybox();
     this.#setControls();
+    // this.#setTerrain();
 
     if (useAxes) {
       this.scene.add(this.createAxes(5));
@@ -35,12 +39,12 @@ export class World {
   #setSkybox() {
     const loader = new THREE.CubeTextureLoader();
     const texture = loader.load([
-      "../assets/skybox/xpos.png",
-      "../assets/skybox/xneg.png",
-      "../assets/skybox/ypos.png",
-      "../assets/skybox/yneg.png",
-      "../assets/skybox/zpos.png",
-      "../assets/skybox/zneg.png",
+      "./assets/skybox/xpos.png",
+      "./assets/skybox/xneg.png",
+      "./assets/skybox/ypos.png",
+      "./assets/skybox/yneg.png",
+      "./assets/skybox/zpos.png",
+      "./assets/skybox/zneg.png",
     ]);
     this.scene.background = texture;
   }
@@ -54,6 +58,13 @@ export class World {
     this.controls.minDistance = 5;
     this.controls.maxDistance = 500;
     this.controls.maxPolarAngle = Math.PI / 2;
+  }
+
+  async #setTerrain() {
+    const loader = new GLTFLoader();
+    this.terrain = await loader.loadAsync('/assets');
+
+
   }
 
   onResize() {

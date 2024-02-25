@@ -1,5 +1,4 @@
-import * as THREE from "../../node_modules/three/build/three.module.min.js";
-import { OrbitControls } from "./OrbitControls.js";
+import * as THREE from "../../../node_modules/three/build/three.module.min.js";
 import { Camera } from "./camera.js";
 import { MovableEntity } from "./movable-entity.js";
 
@@ -12,8 +11,6 @@ export class Entity extends THREE.Object3D {
    * @description Camera object that follows the entity
    */
   #myCamera = null;
-
-  #keyController = null;
 
   #geometry;
   #material;
@@ -53,15 +50,6 @@ export class Entity extends THREE.Object3D {
 
     if (opts.movable) {
       Object.assign(this, MovableEntity);
-      // this.#keyController = new KeyController(this.#mesh.position);
-
-      if (!!opts.attachTo) {
-        // this.add(this.#keyController.line)
-        // this.add(this.#keyController.headingLine)
-        // this.rotation.x = this.#keyController.newHeading.x;
-        // this.rotation.y = this.#keyController.newHeading.y;
-        // this.applyQuaternion(this.#keyController.quaternion)
-      }
     }
 
     if (!!opts.attachTo) opts.attachTo.add(this);

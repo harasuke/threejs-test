@@ -170,3 +170,5 @@ dist
 
 # IntelliJ based IDEs
 .idea
+public/assets/.DS_Store
+.DS_Store

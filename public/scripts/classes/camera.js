@@ -1,4 +1,4 @@
-import * as THREE from "../../node_modules/three/build/three.module.min.js"; 
+import * as THREE from "../../../node_modules/three/build/three.module.min.js"; 
 
 export class Camera extends THREE.PerspectiveCamera {
 

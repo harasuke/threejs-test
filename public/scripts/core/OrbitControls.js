@@ -9,7 +9,7 @@ import {
 	Plane,
 	Ray,
 	MathUtils
-} from "../../node_modules/three/build/three.module.min.js"; 
+} from "../../../node_modules/three/build/three.module.min.js"; 
 
 
 // OrbitControls performs orbiting, dollying (zooming), and panning.
