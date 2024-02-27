@@ -1,4 +1,5 @@
 import * as THREE from "../../node_modules/three/build/three.module.min.js";
+import * as CANNON from "../../node_modules/cannon-es/dist/cannon-es.js";
 // import * as LOADER from "../node_modules/three/examples/jsm/loaders/GLTFLoader.js";
 // import { LoadingManager } from "../node_modules/three/src/loaders/LoadingManager.js";
 import { OrbitControls } from "./core/OrbitControls.js";
@@ -106,6 +107,14 @@ export class World {
     light.shadow.camera.top = 200;
     light.shadow.camera.bottom = -200;
     return light;
+  }
+
+  update() {
+    // window.player.position.copy(window.physicsBody.position);
+    // window.player.quaternion.copy(window.physicsBody.quaternion);
+
+    // window.physicsBody.position.copy(window.player.position);
+    // window.physicsBody.quaternion.copy(window.player.quaternion)
   }
 
   render(camera=this.camera) {

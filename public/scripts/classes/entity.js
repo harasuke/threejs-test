@@ -1,6 +1,7 @@
 import * as THREE from "../../../node_modules/three/build/three.module.min.js";
-import { Camera } from "./camera.js";
+import * as CANNON from "../../../node_modules/cannon-es/dist/cannon-es.js";
 import { MovableEntity } from "./movable-entity.js";
+import { Camera } from "./camera.js";
 
 /**
  * A class for generating an entity and attach it to the Node provided
@@ -69,15 +70,15 @@ export class Entity extends THREE.Object3D {
     return this.#mesh;
   }
 
-  /**
-   * Handle the key pressed only if it's movable
-   * @param {KeyboardEvent.keyCode} keyCode Code of the pressed key
-   * @param {boolean} type true when keydown fires; false when keyup fires
-   */
-  onKeyPress(keyCode, type=true) {
-    if (!this.isMovable) return;
-    this.commandAction(this, keyCode, type);
-  }
+  // /**
+  //  * Handle the key pressed only if it's movable
+  //  * @param {KeyboardEvent.keyCode} keyCode Code of the pressed key
+  //  * @param {boolean} type true when keydown fires; false when keyup fires
+  //  */
+  // onKeyPress(keyCode, type=true) {
+  //   if (!this.isMovable) return;
+  //   this.commandAction(this, keyCode, type);
+  // }
 
   moveTo(x, y, z) {
     this.position.x = x;
@@ -87,14 +88,11 @@ export class Entity extends THREE.Object3D {
   }
 
   update(tickTime) {
-    // this.heading.z -= tickTime;
-    // this.moveTo(this.heading.x, this.heading.y, this.heading.z);
-    this.translateZ(-this.speed)
+    // this.#mesh.position.copy(this.physicsBody.position);
+    // this.position.copy (this.physicsBody.position);
+    // this.#mesh.quaternion.copy(this.physicsBody.quaternion);
 
-    // console.log(this.heading)
-    // console.log(this.newHeading)
-    // this.moveTo(this.heading)
-    // console.log(this.localToWorld(this.position))
+    this.translateZ(-this.speed)
   }
 
   get refToGlobalSpace() {

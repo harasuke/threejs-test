@@ -1,12 +1,5 @@
 import * as THREE from "../../../node_modules/three/build/three.module.min.js"; 
 
-window.currentlyPressedKeys = new Map();
-window.handleKeypress = () => {
-  for (let key of  window.currentlyPressedKeys.keys()) {
-    window.player.onKeyPress(key)
-  }
-}
-
 export class MovementController {
 
   /**
@@ -60,6 +53,13 @@ export class MovementController {
     if (context.speed - 0.02 <= 0) return context.speed = 0;
     context.speed -= 0.02;
   }
+
+  // static quaternionX_p = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1,0,0).normalize(), 0.1);
+  // static quaternionX_m = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(-1,0,0).normalize(), 0.1);
+  // static quaternionY_p = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0).normalize(), 0.1);
+  // static quaternionY_m = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,-1,0).normalize(), 0.1);
+  // static quaternionZ_p = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,0,1).normalize(), 0.1);
+  // static quaternionZ_m = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,0,-1).normalize(), 0.1);
 
   static pitchUpVector = new THREE.Vector3(1,0,0).normalize();
   static pitchDownVector = new THREE.Vector3(-1,0,0).normalize();
