@@ -1,9 +1,16 @@
 import * as THREE from "../../node_modules/three/build/three.module.min.js";
-import * as CANNON from "../../node_modules/cannon-es/dist/cannon-es.js";
-import { World } from "./world.js";
-import { Entity } from "./classes/entity.js";
+import Stats from "../../node_modules/three/examples/jsm/libs/stats.module.js";
 import { Commands } from "./controller/inputController.js";
-import { PhysicsEntity } from "./classes/physics-entity.js";
+import { VisualWorld } from "./core/visual-world.js";
+import { PhysicsWorld } from "./core/physics-world.js"; 
+import { Entity } from "./classes/entity.js";
+import { PhysicsEntity, Joshdog_H14, Aircraft } from "./classes/physics-entity.js";
+
+/**
+ * Initialize FPS statistics for debug purposes.
+ */
+const stats = new Stats();
+document.getElementById('debug-fps').appendChild(stats.dom);
 
 /**
  * All 3d entity in the scene
@@ -20,25 +27,46 @@ var cameras = window.cameras = [];
  * @type {number} */
 var currentCamera = window.currentCamera = 0;
 
-var world = window.world = new World("#game-screen", true);
+/** Used for physics world update. */
+var clock = new THREE.Clock();
+
+var world = window.world = new VisualWorld("#game-screen", true);
 window.onresize = world.onResize();
 window.worldContext = world;
+
+/** collection of all ThreeJS objects */
+var rigidBodies = window.rigidBodies = [];
+
+/** Temporary ammojs transfrom object to reuse between all threejs objects with the same mesh shape. */
+var tmpTrans = window.tmpTrans;
+
+/** Physics World managed by Ammo.js */
+var physicsWorld = window.physicsWorld = new PhysicsWorld();
 
 /** 
  * The Entity controlled by the player.
  * @type {Entity} */
-const player = window.player = new Entity({
+// const player = window.player = new Entity({
+//   coords: { x: 0, y: 0, z: -2 },
+//   size: {width: 1, height: 1, depth: 2},
+//   movable: true,
+//   attachTo: world.scene,
+//   camera: true
+// });
+let b = Aircraft.init()
+let x =  Joshdog_H14.init()
+const player = window.player = new PhysicsEntity({
   coords: { x: 0, y: 0, z: -2 },
   size: {width: 1, height: 1, depth: 2},
-  movable: true,
+  aircarftModel: Joshdog_H14,
   attachTo: world.scene,
+  movable: true,
   camera: true
 });
-// player.add(world.createAxes());
-// player.mesh.add(world.createAxes());
+
+
 
 objects.push(player);
-window.player = player;
 
 const wrap = new THREE.Object3D();
 const box = new Entity({ coords: { x: 5, y: 5, z: -15 }, attachTo: wrap });
@@ -51,25 +79,23 @@ function animate() {
   document.getElementById('object-data').innerHTML = window.player.speed;
   requestAnimationFrame((tickTime) => {
     tickTime *= 0.00001; // convert time to seconds
-
-    player.update(tickTime);
-
+    
     handleKeypress(); // Keyboard input
-
+    
     /** Probably slows down app, must check */
     gamepadEvent(); // Gamepad Input
     
-
-    // world.camera.updateProjectionMatrix();
+    player.update();
+    physicsWorld.update();
     world.update();
-    // world.phWorld.step(world.phWorld.phTimeStep);
-
     world.render(cameras[window.currentCamera]);
     world.controls.update();
+    stats.update();
     animate();
   });
 }
-animate();
+/** Imposto un delay per assicurarmi che il mondo fisico sia inizializzato. */
+setTimeout(animate, 100);
 
 /** 
  * Reference to all the current keys pressed.

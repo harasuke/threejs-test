@@ -87,7 +87,7 @@ export class Entity extends THREE.Object3D {
     // this.camera.moveTo(this.position.x, this.position.y + 2, this.position.z + 3)
   }
 
-  update(tickTime) {
+  update() {
     // this.#mesh.position.copy(this.physicsBody.position);
     // this.position.copy (this.physicsBody.position);
     // this.#mesh.quaternion.copy(this.physicsBody.quaternion);

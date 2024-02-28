@@ -1,12 +1,12 @@
-import * as THREE from "../../node_modules/three/build/three.module.min.js";
-import * as CANNON from "../../node_modules/cannon-es/dist/cannon-es.js";
+import * as THREE from "../../../node_modules/three/build/three.module.min.js";
+// import * as CANNON from "cannon-es";
 // import * as LOADER from "../node_modules/three/examples/jsm/loaders/GLTFLoader.js";
 // import { LoadingManager } from "../node_modules/three/src/loaders/LoadingManager.js";
-import { OrbitControls } from "./core/OrbitControls.js";
+import { OrbitControls } from "./OrbitControls.js";
 // import { OrbitControls } from "../../node_modules/three/examples/jsm/controls/OrbitControls.js";
-import { Camera } from "./classes/camera.js";
+import { Camera } from "../classes/camera.js";
 
-export class World {
+export class VisualWorld {
 
   constructor(targetCanvasId, useAxes) {
     this.canvas = document.querySelector(targetCanvasId);

@@ -27,16 +27,24 @@
         #object-data {
             z-index: 100;
             position: absolute;
-            left: 0;
+            left: 75%;
             top: 0;
             color: white;
         }
+        #debug-fps {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 100;
+        }
     </style>
-    <div id="object-data"></div>
+    <script src="scripts/core/physics/ammo.wasm.js"></script>
     <script type="module" src="scripts/controller/gamepad.js"></script>
     <title>JSCombat - Jet Strike Combat</title>
 </head>
 <body>
+    <div id="debug-fps"></div>
+    <div id="object-data"></div>
     <canvas id="game-screen" tabindex="0"></canvas>
     <script type="module" src="scripts/main.js"></script>
 </body>
